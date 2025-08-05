@@ -1,27 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, Text, FlatList } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Colors } from '../../Utils/Colors';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { getPratos } from '../../Services/pratosService';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../Utils/RootStackParam';
+
+type Prato = {
+  id: number;
+  image: string;
+  title: string;
+  valor: number;
+  descricao: string;
+};
+
+type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function Home() {
 
-    const prato = [
-        {
-            id: 1,
-            image: 'https://img.freepik.com/fotos-gratis/refeicao-de-hamburguer-grelhado-com-batatas-fritas-e-ia-generativa-de-queijo_188544-8488.jpg?semt=ais_hybrid&w=740&q=80',
-            title: 'Combo X-Tudo',
-            valor: 32.90,
-            descricao: 'Hambúrguer com carne bovina, queijo, presunto, ovo, alface, tomate e maionese especial'
-        },
-        {
-            id: 2,
-            image: 'https://img.freepik.com/fotos-premium/hamburguer-caseiro-com-batatas-fritas-e-dois-copos-de-cerveja-na-mesa-de-madeira-fastfood-em-fundo-escuro_96727-1451.jpg?semt=ais_hybrid&w=740&q=80',
-            title: 'Combo X-Tudo com Cerveja',
-            valor: 42.50,
-            descricao: 'Hambúrguer com carne bovina, queijo, presunto, ovo, alface, tomate e maionese especial'
+    const navigation = useNavigation<HomeNavigationProp>();
+    const [ pratos, setPratos ] = useState<Prato[]>([])
+    const [ loading, setLoading ] = useState(true)
+
+    //Simular uma requisição de API, o Objeto é importado de Services/pratoServices
+    useEffect(() => {
+        async function fetchPratos() {
+            try {
+                const data = await getPratos();
+                setPratos(data);
+            } catch (error) {
+                console.error("Error fetching pratos:", error);
+            } finally {
+                setLoading(false);
+            }
         }
-]
+
+        fetchPratos();
+    }, [])
 
  return (
    <View style={styles.container}>
@@ -80,13 +97,13 @@ export default function Home() {
             </View>
 
             <FlatList 
-                data={prato}
+                data={pratos}
                 keyExtractor={(item, index) => index.toString()}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 style={{marginTop: 12}}
                 renderItem={({item}) => (
-                    <TouchableOpacity style={{backgroundColor: Colors.Branco, borderRadius: 10, marginRight: 15, width: 200}}>
+                    <TouchableOpacity style={{backgroundColor: Colors.Branco, borderRadius: 10, marginRight: 15, width: 200}} onPress={() => navigation.navigate('Produto', { item })}>
                         <Image source={{uri: item.image}} style={{width: '100%', height: 120, borderTopLeftRadius: 10, borderTopRightRadius: 10}} />
                         <View style={{padding: 10, gap: 5}}>
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.title}</Text>

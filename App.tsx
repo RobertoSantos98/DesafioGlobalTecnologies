@@ -8,7 +8,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
         <Navigation />
       </NavigationContainer>
     </SafeAreaProvider>
