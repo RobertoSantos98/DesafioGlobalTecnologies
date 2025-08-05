@@ -6,7 +6,7 @@ export async function getPratos(): Promise<Prato[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(PRATOS);
-    }, 1500); // 1,5 segundos para simular delay
+    }, 3000); // 3 segundos para simular delay
   });
 }
 

@@ -5,3 +5,8 @@ export type Prato = {
   valor: number;
   descricao: string;
 };
+
+export type ItemCarrinho = {
+  prato: Prato;
+  quantidade: number;
+};

@@ -9,6 +9,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../Types/RootStackParam';
 
+import SkeletonCardapio from './skeletonCardapio';
+
 type CardapioNavigationProp = StackNavigationProp<RootStackParamList, 'Cardapio'>;
 
 export default function Cardapio() {
@@ -24,9 +26,14 @@ export default function Cardapio() {
             // Simular fetch de pratos
             const data: Prato[] = await getPratos();
             setPratos(data);
+            setLoading(false);
         }
         fetchPratos();
     }, [])
+
+    if(loading){
+        return <SkeletonCardapio />;
+    }
 
     return (
         <View style={styles.container}>
