@@ -1,11 +1,31 @@
-import { View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, Text } from 'react-native';
+import React from 'react'
+import { View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, Text, FlatList } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { Colors } from '../../Utils/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Home() {
+
+    const prato = [
+        {
+            id: 1,
+            image: 'https://img.freepik.com/fotos-gratis/refeicao-de-hamburguer-grelhado-com-batatas-fritas-e-ia-generativa-de-queijo_188544-8488.jpg?semt=ais_hybrid&w=740&q=80',
+            title: 'Combo X-Tudo',
+            valor: 32.90,
+            descricao: 'Hambúrguer com carne bovina, queijo, presunto, ovo, alface, tomate e maionese especial'
+        },
+        {
+            id: 2,
+            image: 'https://img.freepik.com/fotos-premium/hamburguer-caseiro-com-batatas-fritas-e-dois-copos-de-cerveja-na-mesa-de-madeira-fastfood-em-fundo-escuro_96727-1451.jpg?semt=ais_hybrid&w=740&q=80',
+            title: 'Combo X-Tudo com Cerveja',
+            valor: 42.50,
+            descricao: 'Hambúrguer com carne bovina, queijo, presunto, ovo, alface, tomate e maionese especial'
+        }
+]
+
  return (
    <View style={styles.container}>
+
         <View style={{height: 300}}>
             <Swiper autoplay={true} showsPagination={true} >
                 <Image source={{
@@ -20,20 +40,70 @@ export default function Home() {
             </Swiper>
         </View>
 
-        <TextInput placeholder='Pesquisar Comida' style={styles.barraPesquisa}/>
+        <TextInput placeholder='Pesquisar Comida' style={styles.barraPesquisa}>
+            {/* <MaterialCommunityIcons name="magnify" size={24} color={Colors.CinzaEscuro} /> */}
+        </TextInput>
 
-        <View style={{marginTop: 30 + 30}}>
-            <ScrollView>
+        <View style={{marginTop: 30 + 30, marginLeft: '5%'}}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <TouchableOpacity style={styles.btnMenu}>
                     <MaterialCommunityIcons name="food" size={50} color={Colors.Vermelho} />
+                    <Text style={styles.btnMenuTitle}>Combos</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.btnMenu}>
+                    <MaterialCommunityIcons name="food-hot-dog" size={50} color={Colors.Vermelho} />
+                    <Text style={styles.btnMenuTitle}>Lanches</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btnMenu}>
+                    <MaterialCommunityIcons name="beer" size={50} color={Colors.Vermelho} />
+                    <Text style={styles.btnMenuTitle}>Bebidas</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btnMenu}>
+                    <MaterialCommunityIcons name="food-apple" size={50} color={Colors.Vermelho} />
+                    <Text style={styles.btnMenuTitle}>Saudável</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.btnMenu}>
+                    <MaterialCommunityIcons name="food-fork-drink" size={50} color={Colors.Vermelho} />
+                    <Text style={styles.btnMenuTitle}>Restaurantes</Text>
                 </TouchableOpacity>
             </ScrollView>
         </View>
 
+        <View style={{marginTop: 20, marginHorizontal: '5%'}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Text style={{fontWeight: 'bold', fontSize: 18}} >Recomendados para hoje</Text>
+                <Text style={{color: Colors.Vermelho}}>Ver mais</Text>
+            </View>
+
+            <FlatList 
+                data={prato}
+                keyExtractor={(item, index) => index.toString()}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={{marginTop: 12}}
+                renderItem={({item}) => (
+                    <TouchableOpacity style={{backgroundColor: Colors.Branco, borderRadius: 10, marginRight: 15, width: 200}}>
+                        <Image source={{uri: item.image}} style={{width: '100%', height: 120, borderTopLeftRadius: 10, borderTopRightRadius: 10}} />
+                        <View style={{padding: 10, gap: 5}}>
+                            <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.title}</Text>
+                            <Text style={{color: Colors.CinzaEscuro}} numberOfLines={2}>{item.descricao}</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 16, color: Colors.Vermelho}}>R$ {item.valor.toFixed(2).replace('.', ',')}</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            />
+
+        </View>
+
         <TouchableOpacity style={styles.btnCompras}>
             <MaterialCommunityIcons name="cart-outline" size={50} color={Colors.Branco} />
-            <Text style={styles.btnMenuTitle}>Pratos</Text>
         </TouchableOpacity>
+
+
         
    </View>
   );
@@ -72,19 +142,19 @@ const styles = StyleSheet.create({
         right: 20,
     },
     btnMenu:{
-        // height: 120,
+        height: 120,
         width: 100,
         backgroundColor: Colors.Branco,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 20,
+        marginRight: 10,
         marginVertical: 10,
+        gap: 8
     },
     btnMenuTitle:{
         color: Colors.CinzaEscuro,
-        fontWeight: 'bold',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 14,
     }
 })
