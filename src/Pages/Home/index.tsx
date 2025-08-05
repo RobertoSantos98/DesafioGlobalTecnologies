@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getPratos } from '../../Services/pratosService';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../Utils/RootStackParam';
+import { RootStackParamList } from '../../Types/RootStackParam';
 
 type Prato = {
   id: number;
@@ -92,8 +92,10 @@ export default function Home() {
 
         <View style={{marginTop: 20, marginHorizontal: '5%'}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text style={{fontWeight: 'bold', fontSize: 18}} >Recomendados para hoje</Text>
-                <Text style={{color: Colors.Vermelho}}>Ver mais</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 18}} >Cardápio da semana</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Cardapio')}>
+                    <Text style={{color: Colors.Vermelho}}>Ver todos</Text>
+                </TouchableOpacity>
             </View>
 
             <FlatList 
@@ -116,7 +118,7 @@ export default function Home() {
 
         </View>
 
-        <TouchableOpacity style={styles.btnCompras}>
+        <TouchableOpacity style={styles.btnCompras} onPress={() => navigation.navigate('Carrinho')}>
             <MaterialCommunityIcons name="cart-outline" size={50} color={Colors.Branco} />
         </TouchableOpacity>
 

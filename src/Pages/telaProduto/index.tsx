@@ -1,8 +1,26 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Colors } from '../../Utils/Colors';
+import { addToCart } from '../../Services/carrinhoService';
+import { useState } from 'react';
 
 export default function Produto({ route }: any) {
   const { item } = route.params; // pega o item enviado
+
+  const [ loading, setLoading ] = useState<boolean>(false);
+
+  // Lógica para adicionar o item ao carrinho
+  const adicionarAoCarrinho = async (item: any) => {
+    setLoading(true);
+    try{
+        await addToCart(item); // chama a função do serviço para adicionar ao carrinho
+        alert(`${item.title} adicionado ao carrinho!`);
+
+    }catch(err){
+        console.log("Erro ao adicionar ao carrinho:", err);
+    } finally{
+        setLoading(false);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -14,8 +32,10 @@ export default function Produto({ route }: any) {
         <Text style={styles.description}>{item.descricao}</Text>
       </View>
 
-        <TouchableOpacity style={styles.btnAdicionarCarrinho}>
+        <TouchableOpacity style={styles.btnAdicionarCarrinho} onPress={() => adicionarAoCarrinho(item)}>
+            {loading? <ActivityIndicator size={32} color={Colors.Branco} /> :
             <Text style={styles.btnAdicionarCarrinhoText}>Adicionar ao Carrinho</Text>
+            }
         </TouchableOpacity>
 
     </View>

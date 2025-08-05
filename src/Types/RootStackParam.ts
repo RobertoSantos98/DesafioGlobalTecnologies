@@ -9,4 +9,6 @@ type Prato = {
 export type RootStackParamList = {
   Home: undefined;
   Produto: { item: Prato };
+  Carrinho: undefined;
+  Cardapio: undefined;
 };
