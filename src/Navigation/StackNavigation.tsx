@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import "../styles/global.css";
 
 import Home from '../Pages/Home';
 import Produto from '../Pages/telaProduto';

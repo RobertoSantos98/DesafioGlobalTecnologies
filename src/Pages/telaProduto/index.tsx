@@ -29,6 +29,8 @@ export default function Produto({ route }: any) {
       <View style={{marginHorizontal: '5%'}}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.price}>R$ {item.valor.toFixed(2).replace('.', ',')}</Text>
+        <View style={{width: '100%', height: 2, backgroundColor: Colors.Cinza, marginVertical: 10, alignSelf: 'center', borderRadius: 8}}/>
+        <Text style={styles.descriptionTitle}>Descrição</Text>
         <Text style={styles.description}>{item.descricao}</Text>
       </View>
 
@@ -58,8 +60,15 @@ const styles = StyleSheet.create({
   price: { 
     fontSize: 20, color: 'red', marginBottom: 10 
   },
+  descriptionTitle:{
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    marginBottom: 10,
+    color: Colors.CinzaEscuro
+  },
   description: { 
-    fontSize: 16, color: '#555' 
+    fontSize: 16, 
+    color: '#b5b5b5'
   },
   btnAdicionarCarrinho:{
     backgroundColor: Colors.Vermelho,
