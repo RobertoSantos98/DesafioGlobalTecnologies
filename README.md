@@ -52,6 +52,15 @@ Antes de começar, instale: - [Node.js](https://nodejs.org/) (versão 18+
 recomendada) - [Expo CLI](https://docs.expo.dev/workflow/expo-cli/)\
 - Um emulador ou aplicativo **Expo Go** no celular (Android/iOS)
 
+ ### O que modificar no seu ambiente
+
+Se seu backend está rodando na porta 8000, mude de localhost:8000 para o seu endereço ipv4.
+
+Se você exportou para uma URL diferente (ex: 192.168.0.5:8000 ou restauranteapp.test/api), atualize a string SERVER conforme necessário src->config->server.
+
+Garanta que o front-end e o backend estejam acessíveis um ao outro (mesma rede ou CORS configurado).
+O React Navite pode não conseguir acessar a API caso esteja usando localhost, por isso é necessário atualizar a string de conexão.
+
 ### 2. Clonar o repositório
 
 ``` bash
