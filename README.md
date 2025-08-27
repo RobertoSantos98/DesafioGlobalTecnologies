@@ -7,6 +7,8 @@ O objetivo do desafio era demonstrar habilidades em **React Native**
 para construção de interfaces e consumo de dados, utilizando um **mock
 de API** para simular requisições.
 
+O BackEnd se encontra em: https://github.com/RobertoSantos98/RestauranteApp/
+
 ------------------------------------------------------------------------
 
 ## 🚀 Tecnologias Utilizadas
