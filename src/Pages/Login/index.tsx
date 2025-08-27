@@ -2,13 +2,12 @@ import { View, StyleSheet, TextInput, Pressable, Text, TouchableOpacity, Animate
 import { Colors } from '../../Utils/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useContext, useRef, useState } from 'react';
-import { LoginService } from '../../Services/AuthService';
 import { AuthContext } from '../../Contexts/AuthContext';
 
 const { width } = Dimensions.get('window');
 
 export default function Login() {
-    const { login } = useContext(AuthContext);
+    const { login, cadastrar } = useContext(AuthContext);
 
     const slideAnim = useRef(new Animated.Value(0)).current;
     const rotateAnim = useRef(new Animated.Value(0)).current;
@@ -17,6 +16,10 @@ export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+ 
+    const [emailCadastro, setEmailCadastro] = useState('');
+    const [passwordCadastro, setPasswordCadastro] = useState('');
+    const [nomeCadastro, setNomeCadastro] = useState('');
 
     const toggleScreen = () => {
         Animated.parallel([
@@ -54,6 +57,23 @@ export default function Login() {
         return;
     }
 
+    const handleCadastroSubmit = async () => {
+        setLoading(true);
+
+        try {
+            const response = await cadastrar(nomeCadastro, emailCadastro, passwordCadastro);
+            alert("Você já pode fazer login.");
+            setNomeCadastro('');
+            setEmailCadastro('');
+            setPasswordCadastro('');
+        } catch (error) {
+            console.error(error);
+        }finally{
+            setIsLogin(!isLogin);
+            setLoading(false);
+        }
+    }
+
     return (
         <ImageBackground style={styles.container} source={require('../../Assets/image-fundo.png')} resizeMode="cover">
             <Animated.View style={{ transform:[{ rotate: rotateX }],backgroundColor: Colors.Branco, borderRadius: 100, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', padding: 20, marginBottom: 20, width: 200, position: 'absolute', top: 50, zIndex: 10, borderWidth: 2, borderColor: Colors.Laranja}}>
@@ -89,11 +109,11 @@ export default function Login() {
                 {/* Cadastro */}
                 <View style={{flex: 2}}>
                     <Text style={styles.title}>Cadastrar</Text>
-                    <TextInput placeholder="Email" style={styles.input} />
-                    <TextInput placeholder="Senha" style={styles.input} secureTextEntry />
-                    <TextInput placeholder="Confirmar Senha" style={styles.input} secureTextEntry />
-                    <Pressable style={styles.button}>
-                        <Text style={styles.buttonText}>Cadastrar</Text>
+                    <TextInput placeholder="Nome" style={styles.input} onChangeText={setNomeCadastro} value={nomeCadastro} />
+                    <TextInput placeholder="Email" style={styles.input} onChangeText={setEmailCadastro} value={emailCadastro} />
+                    <TextInput placeholder="Senha" style={styles.input} secureTextEntry onChangeText={setPasswordCadastro} value={passwordCadastro} />
+                    <Pressable style={styles.button} onPress={handleCadastroSubmit}>
+                        {loading? <ActivityIndicator color={Colors.Branco} /> : <Text style={styles.buttonText}>Cadastrar</Text>}
                     </Pressable>
 
                     <View style={{height: 1, width: '90%', backgroundColor: Colors.Branco, opacity: 0.4, marginVertical: 20, alignSelf: 'center'}}/>

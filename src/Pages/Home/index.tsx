@@ -143,12 +143,14 @@ export default function Home() {
 
                 <SectionEmAlta />
 
-                <View style={{width: '100%', height: 80, justifyContent: 'center', alignItems: 'center', gap: 10, backgroundColor: Colors.Laranja, marginTop: 20}}>
+                <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', gap: 10, backgroundColor: Colors.Laranja, marginTop: 20, paddingVertical: 12}}>
 
-                    <TouchableOpacity style={{backgroundColor: Colors.Vermelho, flexDirection: 'row', alignItems: 'center', padding: 10, borderRadius: 10, gap: 10}} onPress={logout}>
+                    <TouchableOpacity style={{backgroundColor: Colors.Vermelho, flexDirection: 'row', alignItems: 'center', padding: 10, borderRadius: 10, gap: 10, elevation: 1}} onPress={logout}>
                         <MaterialCommunityIcons name="logout" size={24} color={Colors.Branco} />
                         <Text style={{color: Colors.Branco, textAlign: 'center'}}>Sair </Text>
                     </TouchableOpacity>
+
+                    <Text style={{color: Colors.Branco, fontSize: 12}}>Desenvolvido por R.S. </Text>
 
                 </View>
 

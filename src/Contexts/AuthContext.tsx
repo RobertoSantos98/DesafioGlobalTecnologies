@@ -8,6 +8,7 @@ interface AuthContextType {
   user?: UserAuth;
   login: (email: string, senha: string) => Promise<void>;
   logout: () => Promise<void>;
+  cadastrar: (nome: string, email: string, senha: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -18,7 +19,7 @@ export default function AuthProvider({children}: any) {
 
     useEffect(() => {
         const loadUser = async () => {
-            const storeUser = await AsyncStorage.getItem('user');
+            const storeUser = await AsyncStorage.getItem('USER');
             if (storeUser) {
                 setUser(JSON.parse(storeUser));
             }
@@ -55,6 +56,31 @@ export default function AuthProvider({children}: any) {
         }
     };
 
+    async function cadastrar(nome: string, email: string, senha: string): Promise<any> {
+
+        const userCadastro = {
+            nome: nome,
+            email: email,
+            password: senha,
+            password_confirmation: senha
+        }
+
+        try {
+            const response = await axios.post(`${SERVER}/api/user`, userCadastro, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+
+            return response;
+
+            return response.data;
+        } catch (error: any) {
+            throw new Error(error);
+        }
+    }
+
     async function logout() {
         await AsyncStorage.removeItem('USER');
         setUser(undefined);
@@ -63,7 +89,7 @@ export default function AuthProvider({children}: any) {
 
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, cadastrar }}>
             {children}
         </AuthContext.Provider>
     );

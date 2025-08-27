@@ -8,6 +8,7 @@ import SplashScreen from './src/Pages/SplashScreen';
 import "./src/styles/global.css";
 import Login from './src/Pages/Login';
 import AuthProvider, { AuthContext } from './src/Contexts/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 function Routes(){
@@ -24,6 +25,10 @@ export default function App() {
       setLoading(false);
     }, 3000); // Simula um carregamento de 3 segundos
   },[])
+
+  if(loading){
+    return <SplashScreen />;
+  }
 
   return (
     <SafeAreaProvider>
